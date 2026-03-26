@@ -20,6 +20,8 @@ public class Player : MonoBehaviour
     [SerializeField] Text textoVida;
     [SerializeField] Text textoTempo;
     [SerializeField] int tempo = 60;
+    [SerializeField] int score = 0;
+    [SerializeField] Text scoreText;
 
     [SerializeField] Button start;
     [SerializeField] Button reiniciar;
@@ -55,8 +57,9 @@ public class Player : MonoBehaviour
         currentPosition = new Vector2(currentLaneX, currentLaneY);
         transform.position = Vector2.MoveTowards(transform.position, currentPosition, stepSpeed * Time.deltaTime);
 
-        textoTempo.text = tempo.ToString();
-        textoVida.text = vida.ToString();
+        textoTempo.text = "Tempo: " +  tempo.ToString();
+        textoVida.text = "Vida: " + vida.ToString();
+        scoreText.text = "Score: " + score.ToString();
 
         if(vida <= 0 || tempo <= 0)
         {
@@ -113,11 +116,12 @@ public class Player : MonoBehaviour
         if (collision.gameObject.CompareTag("Parede"))
         {
             vida--;
-            tempo = tempo - 20;
+            tempo = tempo - 10;
         }
         if (collision.gameObject.CompareTag("Vida"))
         {
             vida++;
+            score++;
             tempo = tempo + 15;
             Destroy(collision.gameObject);
         }
